@@ -1,0 +1,11 @@
+{
+  "startDate": "2022-12-01T00:00:00",
+  "endDate": "2022-12-03T23:59:00",
+  "countryISO2": "DE",
+  "cities": [
+    "Berlin",
+    "Leipzig",
+    "Hamburg",
+    "Dortmund"
+  ]
+}
