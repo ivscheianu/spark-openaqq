@@ -9,7 +9,6 @@ import lombok.extern.slf4j.Slf4j;
 public class OnDemandPreprocessingJobLauncher {
 
     private static final String LAUNCHER_NAME = OnDemandPreprocessingJobLauncher.class.getSimpleName();
-    private static final byte EXPECTED_ARGS = 1;
 
     public static void main(final String[] args) {
         try {

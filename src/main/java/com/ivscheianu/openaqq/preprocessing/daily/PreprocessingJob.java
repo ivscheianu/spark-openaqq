@@ -6,6 +6,8 @@ import com.ivscheianu.openaqq.common.base.job.Job;
 import com.ivscheianu.openaqq.common.base.spark.SparkSessionProvider;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.spark.sql.Dataset;
+import org.apache.spark.sql.Row;
 import org.apache.spark.sql.SparkSession;
 
 /**
@@ -24,12 +26,12 @@ public class PreprocessingJob implements Job {
     @Override
     public void run() {
         final SparkSession sparkSession = SparkSessionProvider.getClusterSparkSession(PREPROCESSING_JOB_NAME);
-        new PreprocessingDatasetProvider(sparkSession)
-            .getDataset(loadLocations)
-            .repartition(COUNTRY.getColumn())
-            .write()
-            .partitionBy(COUNTRY.getName())
-            .option("compression", "deflate")
-            .json(saveLocation);
+        final Dataset<Row> initialDataset = new PreprocessingDatasetProvider(sparkSession).getDataset(loadLocations);
+        new PreprocessingDatasetOptimizer()
+                .optimize(initialDataset)
+                .write()
+                .partitionBy(COUNTRY.getName())
+                .option("compression", "deflate")
+                .json(saveLocation);
     }
 }

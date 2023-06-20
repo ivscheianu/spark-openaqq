@@ -28,7 +28,12 @@ public enum ColumnEnum {
     AVERAGING_TIME(19, "averaging_time"),
     AVERAGING_UNIT(20, "averaging_unit"),
     ATTRIBUTION(21, "attribution"),
-    PEAK(22, "peak");
+    PEAK(22, "peak"),
+    RECORD(23, "record"),
+    RECORDS(24, "records"),
+    RANDOMNESS(25, "randomness"),
+    SALT(26, "salt"),
+    SEED(27, "seed");
 
     private final int id;
     private final String name;

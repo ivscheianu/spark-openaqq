@@ -2,13 +2,16 @@ package com.ivscheianu.openaqq.common;
 
 import static org.apache.spark.sql.functions.udf;
 
+import lombok.RequiredArgsConstructor;
 import lombok.experimental.UtilityClass;
 import org.apache.spark.sql.Column;
 import org.apache.spark.sql.api.java.UDF1;
 import org.apache.spark.sql.catalyst.expressions.GenericRowWithSchema;
 import org.apache.spark.sql.types.DataType;
+import org.apache.spark.sql.types.IntegerType;
 
 import java.util.Arrays;
+import java.util.Map;
 
 @UtilityClass
 public class UDFs {
@@ -19,6 +22,18 @@ public class UDFs {
     private final UDF1<GenericRowWithSchema, Double> extractLatitude = row -> extractFieldFromGenericRow(row, "latitude");
     private final UDF1<GenericRowWithSchema, Double> extractAveragingTime = row -> extractFieldFromGenericRow(row, "value");
     private final UDF1<GenericRowWithSchema, String> extractAveragingTimeUnit = row -> extractFieldFromGenericRow(row, "unit");
+
+    @RequiredArgsConstructor
+    private static class RandomnessDistributor implements UDF1<String, Integer> {
+
+        private final Map<String, Integer> lookup;
+
+        @Override
+        public Integer call(final String country) {
+            return lookup.getOrDefault(country, 0);
+        }
+    }
+
 
     public static UDF1<GenericRowWithSchema, String> getExtractUTCDate() {
         return extractUTCDate;
@@ -42,6 +57,10 @@ public class UDFs {
 
     public static UDF1<GenericRowWithSchema, String> getExtractAveragingTimeUnit() {
         return extractAveragingTimeUnit;
+    }
+
+    public static UDF1<String, Integer> getRandomnessDistributor(final Map<String, Integer> lookup) {
+        return new RandomnessDistributor(lookup);
     }
 
     //compile-time UDF

@@ -20,7 +20,6 @@ class ResponseFactoryTest {
 
     private static final SparkSession LOCAL_SPARK_SESSION = SparkSessionProvider.getLocalSparkSession("Testing job");
 
-
     private final ClassLoader classLoader = ResponseFactoryTest.class.getClassLoader();
 
     @ParameterizedTest
