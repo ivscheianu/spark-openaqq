@@ -11,7 +11,6 @@ public class ReportingDatasetOptimizer implements DatasetOptimizer {
     @Override
     public Dataset<Row> optimize(final Dataset<Row> dataset) {
         return dataset
-//                .select()
                 .repartition(NUMBER_OF_PARTITIONS)
                 .cache();
     }

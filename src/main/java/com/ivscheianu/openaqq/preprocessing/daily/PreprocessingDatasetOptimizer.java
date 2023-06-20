@@ -21,7 +21,6 @@ public class PreprocessingDatasetOptimizer implements DatasetOptimizer {
         final List<CountryRecords> countryStats = new CountryRecordsGenerator(dataset).generateData().getResults();
         final Map<String, Integer> lookup = new RandomnessProvider().getRandomness(countryStats);
         return dataset
-//                .drop()
                 .withColumn(RANDOMNESS.getName(), materializeUDF(getRandomnessDistributor(lookup), IntegerType, COUNTRY))
                 .withColumn(SALT.getName(), rand().multiply(RANDOMNESS.getColumn()).cast(IntegerType))
                 .repartition(COUNTRY.getColumn(), SALT.getColumn())
